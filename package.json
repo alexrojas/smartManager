@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "engines": {
+    "node": "8.11.3",
+    "npm": "6.1.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon"
+  },
+  "author": "alex rojas",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemon": "^1.18.4"
+  }
+}
