@@ -4,7 +4,7 @@ const FacebookStrategy = require('passport-facebook')
 
 
 module.exports = app =>{
-
+//Google
   app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']
   }));
@@ -14,7 +14,7 @@ module.exports = app =>{
     res.redirect('/');
   });
 
-
+//Facebook
   app.get('/auth/facebook',
   passport.authenticate('facebook'));
 
