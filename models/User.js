@@ -7,9 +7,14 @@ const userSchema = new Schema({
   provider: {type: String},
   googleId: {type: String},
   facebookId: {type: String},
-  name: {type: String},
+  name: {
+    familyName: {type: String},
+    givenName: {type: String}
+  },
+  displayName: {type: String},
   email: {type: String},
   password: {type: String},
+  gender: {type: String},
   image: {type: String},
   date: {type: Date, defaul: Date.now},
 })

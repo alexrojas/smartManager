@@ -12,12 +12,33 @@ passport.use(new GoogleStrategy({
   clientSecret: keys.googleClientSecret,
   callbackURL: "/auth/google/callback"
 }, (accessToken, refreshToken, profile, cb) => {
-  const newUser = new User({
-    googleId: profile.id
+  console.log('Google Profile',profile);
+  console.log('Google Email>>>**',profile.name.familyName);
+  User.findOne({
+    'googleId': profile.id
+  }, function(err, user) {
+    if (err) {
+      return done(err)
+    }
+    if (!user) {
+      user = new User({
+        googleId: profile.id,
+        name:{
+          familyName: profile.name.familyName,
+          givenName: profile.name.givenName,
+        },
+        displayName: profile.displayName,
+        email: profile.emails[0].value,
+        // username: profile.username,
+        provider: 'Google'
+      })
+      user.save(function(err) {
+        if (err)
+          console.log(err);
+        // return done(err, user);
+      });
+    }
   })
-  return newUser.save()
-
-
   }
  )
 );
@@ -26,33 +47,39 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
   clientID: keys.facebookClientId,
   clientSecret: keys.facebookClientSecret,
-  callbackURL: "/auth/facebook/callback"
+  callbackURL: "/auth/facebook/callback",
+  profileFields: ['id', 'displayName', 'photos', 'email']
 }, function(accessToken, refreshToken, profile, cb) {
-  console.log('accessTokenFacebook', accessToken);
-  console.log('refreshTokenFacebook', refreshToken);
+  // console.log('accessTokenFacebook', accessToken);
+  // console.log('refreshTokenFacebook', refreshToken);
   console.log('profileFacebook>>>>>', profile);
   // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
   //   return cb(err, user);
   // });
-  // User.findOne({
-  //   'facebookId': profile.id
-  // }, function(err, user) {
-  //   if (err) {
-  //     return done(err)
-  //   }
-  //   if (!user) {
-  //     user = new User({
-  //       // facebookId: profile._json,
-  //       // name: profile.displayName,
-  //       // email: profile.emails[0].value,
-  //       // username: profile.username,
-  //       provider: 'facebook'
-  //     })
-  //     user.save(function(err) {
-  //       if (err)
-  //         console.log(err);
-  //       // return done(err, user);
-  //     });
-  //   }
-  // })
+  User.findOne({
+    'facebookId': profile.id
+  }, function(err, user) {
+    if (err) {
+      return done(err)
+
+    }
+    if (!user) {
+      user = new User({
+        facebookId: profile.id,
+        name:{
+          familyName: profile.name.familyName,
+          givenName: profile.name.givenName,
+        },
+        displayName: profile.displayName,
+        gender: profile.gender,
+        email: profile.emails[0].value,
+        provider: 'facebook'
+      })
+      user.save(function(err) {
+        if (err)
+          console.log(err);
+        // return done(err, user);
+      });
+    }
+  })
 }));
