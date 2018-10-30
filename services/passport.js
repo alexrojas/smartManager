@@ -14,31 +14,30 @@ passport.use(new GoogleStrategy({
 }, (accessToken, refreshToken, profile, cb) => {
   console.log('Google Profile',profile);
   console.log('Google Email>>>**',profile.name.familyName);
-  User.findOne({
-    'googleId': profile.id
-  }, function(err, user) {
-    if (err) {
-      return done(err)
-    }
-    if (!user) {
-      user = new User({
-        googleId: profile.id,
-        name:{
-          familyName: profile.name.familyName,
-          givenName: profile.name.givenName,
-        },
-        displayName: profile.displayName,
-        email: profile.emails[0].value,
-        // username: profile.username,
-        provider: 'Google'
-      })
-      user.save(function(err) {
-        if (err)
-          console.log(err);
-        // return done(err, user);
-      });
-    }
-  })
+  User.findOne({'googleId': profile.id})
+    .then((existingUser)=>{
+      if(existingUser){
+        console.log(`this user ${existingUser}, already exist`);
+      }else{
+        user = new User({
+          googleId: profile.id,
+          name:{
+            familyName: profile.name.familyName,
+            givenName: profile.name.givenName,
+          },
+          displayName: profile.displayName,
+          email: profile.emails[0].value,
+          // username: profile.username,
+          provider: 'Google'
+        })
+        user.save(function(err) {
+          if (err)
+            console.log(err);
+          // return done(err, user);
+        });
+      }
+    })
+
   }
  )
 );
@@ -56,14 +55,11 @@ passport.use(new FacebookStrategy({
   // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
   //   return cb(err, user);
   // });
-  User.findOne({
-    'facebookId': profile.id
-  }, function(err, user) {
-    if (err) {
-      return done(err)
-
-    }
-    if (!user) {
+  User.findOne({ 'facebookId': profile.id})
+  .then((existingUser)=>{
+    if(existingUser){
+      console.log(`this user ${existingUser}, already exist`);
+    }else{
       user = new User({
         facebookId: profile.id,
         name:{
@@ -77,9 +73,12 @@ passport.use(new FacebookStrategy({
       })
       user.save(function(err) {
         if (err)
-          console.log(err);
+        console.log(err);
         // return done(err, user);
       });
     }
   })
+
+
+
 }));
