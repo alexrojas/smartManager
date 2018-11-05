@@ -24,7 +24,7 @@ module.exports = app =>{
   passport.authenticate('facebook'));
 
   app.get('/auth/facebook/callback', passport.authenticate('facebook',
-  {failureRedirect: '/login', scope: ['email'] }), function(req, res) {
+  {scope: ['email'] }), function(req, res) {
     console.log(req);
     // Successful authentication, redirect home.
     res.redirect('/api/current_user');
