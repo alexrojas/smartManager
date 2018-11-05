@@ -18,7 +18,7 @@ app.use(cookieSession({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.get('/connect/facebook', passport.authorize('facebook', { scope : ['email'] }))
 mongoose.connect(keys.mongoURI)
 .then(()=> {
   console.log('MongoDb connected MDLAB')
