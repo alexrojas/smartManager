@@ -64,7 +64,7 @@ passport.use(new FacebookStrategy({
   clientID: keys.facebookClientId,
   clientSecret: keys.facebookClientSecret,
   callbackURL: "/auth/facebook/callback",
-  profileFields: ['id', 'displayName', 'photos', 'email'],
+  profileFields: ['id', 'displayName', 'photos', 'emails'],
   proxy: true
 }, function(accessToken, refreshToken, profile, done) {
   console.log('profileFacebook>>>>>', profile);
@@ -86,7 +86,7 @@ passport.use(new FacebookStrategy({
         },
         displayName: profile.displayName,
         gender: profile.gender,
-        // email: profile.emails[0].value,
+        email: profile.emails[0].value,
         provider: 'facebook'
       })
       return user.save()
