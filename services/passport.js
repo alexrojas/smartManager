@@ -87,7 +87,7 @@ passport.use(new FacebookStrategy({
         },
         displayName: profile.displayName,
         gender: profile.gender,
-        email: profile.emails[0].value,
+        // email: profile.emails[0].value,
         provider: 'facebook'
       })
       return user.save()
