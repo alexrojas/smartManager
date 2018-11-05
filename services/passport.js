@@ -77,6 +77,7 @@ passport.use(new FacebookStrategy({
       // console.log(`this user ${existingUser}, already exist`);
       return done(null, existingUser)
     }else{
+      console.log('mierda', profile);
       user = new User({
         facebookId: profile.id,
         name:{
@@ -85,7 +86,7 @@ passport.use(new FacebookStrategy({
         },
         displayName: profile.displayName,
         gender: profile.gender,
-        email: profile.emails[0].value,
+        // email: profile.emails[0].value,
         provider: 'facebook'
       })
       return user.save()
