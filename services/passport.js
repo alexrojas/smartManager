@@ -64,7 +64,8 @@ passport.use(new FacebookStrategy({
   clientID: keys.facebookClientId,
   clientSecret: keys.facebookClientSecret,
   callbackURL: "/auth/facebook/callback",
-  profileFields: ['id', 'displayName', 'photos', 'email']
+  profileFields: ['id', 'displayName', 'photos', 'email'],
+  proxy: true
 }, function(accessToken, refreshToken, profile, done) {
   console.log('profileFacebook>>>>>', profile);
   // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
