@@ -5,19 +5,34 @@ const keys = require('../config/keys')
 const mongoose = require("mongoose");
 const User = require('../models/User')
 
+
+
+passport.serializeUser((user, cb) => {
+  cb(null, user._id);
+});
+
+passport.deserializeUser((id, cb) => {
+  User.findById(id, (err, user) => {
+    if (err) { return cb(err); }
+    cb(null, user);
+  });
+});
+
+
 // const User = mongoose.model("User", userSchema);
 //Google Passport
 passport.use(new GoogleStrategy({
   clientID: keys.googleClientID,
   clientSecret: keys.googleClientSecret,
   callbackURL: "/auth/google/callback"
-}, (accessToken, refreshToken, profile, cb) => {
+}, (accessToken, refreshToken, profile, done) => {
   console.log('Google Profile',profile);
   console.log('Google Email>>>**',profile.name.familyName);
   User.findOne({'googleId': profile.id})
     .then((existingUser)=>{
       if(existingUser){
-        console.log(`this user ${existingUser}, already exist`);
+
+        return done(null, existingUser)
       }else{
         user = new User({
           googleId: profile.id,
@@ -30,12 +45,14 @@ passport.use(new GoogleStrategy({
           // username: profile.username,
           provider: 'Google'
         })
-        user.save(function(err) {
-          if (err)
-            console.log(err);
-          // return done(err, user);
-        });
+        return user.save()
+        .then(user =>{
+          done(null, user)
+        })
       }
+    })
+    .catch(error =>{
+      console.log("carajo", error)
     })
 
   }
@@ -48,17 +65,16 @@ passport.use(new FacebookStrategy({
   clientSecret: keys.facebookClientSecret,
   callbackURL: "/auth/facebook/callback",
   profileFields: ['id', 'displayName', 'photos', 'email']
-}, function(accessToken, refreshToken, profile, cb) {
-  // console.log('accessTokenFacebook', accessToken);
-  // console.log('refreshTokenFacebook', refreshToken);
+}, function(accessToken, refreshToken, profile, done) {
   console.log('profileFacebook>>>>>', profile);
   // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
   //   return cb(err, user);
   // });
   User.findOne({ 'facebookId': profile.id})
-  .then((existingUser)=>{
+  .then((existingUser, err)=>{
     if(existingUser){
-      console.log(`this user ${existingUser}, already exist`);
+      // console.log(`this user ${existingUser}, already exist`);
+      return done(null, existingUser)
     }else{
       user = new User({
         facebookId: profile.id,
@@ -71,14 +87,13 @@ passport.use(new FacebookStrategy({
         email: profile.emails[0].value,
         provider: 'facebook'
       })
-      user.save(function(err) {
-        if (err)
-        console.log(err);
-        // return done(err, user);
+      return user.save()
+      .then(user =>{
+        done(null, user)
       });
     }
   })
-
-
-
+  .catch(error =>{
+    console.log("carajo", error)
+  })
 }));

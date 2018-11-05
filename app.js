@@ -2,11 +2,22 @@ const express = require('express')
 const mongoose = require('mongoose')
 const authRoutes = require('./routes/authRoutes')
 const keys = require('./config/keys')
+const cookieSession = require('cookie-session')
+const passport = require("passport")
 require('./models/User')
 require('./services/passport')
 
 
 const app = express()
+
+app.use(cookieSession({
+  name: 'session',
+  keys: [keys.cookieKey],
+  maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 mongoose.connect(keys.mongoURI)
 .then(()=> {
@@ -17,7 +28,7 @@ mongoose.connect(keys.mongoURI)
 authRoutes(app)
 
 app.get('/', (req, res) => {
-  res.send({hi: "there"})
+  res.send({hi: "you are not logged in"})
 })
 
 // here we are setting the listener either for local or deployed

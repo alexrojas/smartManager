@@ -11,8 +11,13 @@ module.exports = app =>{
 
   app.get('/auth/google/callback', passport.authenticate('google', {failureRedirect: '/login'}), function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/');
+    res.redirect('/api/current_user');
   });
+
+  app.get('/api/current_user', (req, res) =>{
+    console.log('carajo1',req)
+    res.send(req.session)
+  })
 
 //Facebook
   app.get('/auth/facebook',
@@ -23,8 +28,13 @@ module.exports = app =>{
   function(req, res) {
     console.log(req);
     // Successful authentication, redirect home.
-    res.redirect('/');
+    res.redirect('/api/current_user');
   });
+
+  app.get('/api/logout', (req, res)=>{
+    req.logout()
+    res.redirect('/')
+  })
 
 
 }
