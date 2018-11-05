@@ -23,9 +23,8 @@ module.exports = app =>{
   app.get('/auth/facebook',
   passport.authenticate('facebook'));
 
-  app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
+  app.get('/auth/facebook/callback', passport.authenticate('facebook',
+  {failureRedirect: '/login' }), function(req, res) {
     console.log(req);
     // Successful authentication, redirect home.
     res.redirect('/api/current_user');
@@ -38,3 +37,7 @@ module.exports = app =>{
 
 
 }
+// https://smart-manager1.herokuapp.com/auth/facebook/callback
+
+
+// https://smart-manager1.herokuapp.com/auth/facebook/callbackRemovehttps://smart-manager1.herokuapp.com/auth/googleRemovehttps://smart-manager1.herokuapp.com/api/current_userRemove
