@@ -25,15 +25,15 @@ passport.use(new GoogleStrategy({
   clientID: keys.googleClientID,
   clientSecret: keys.googleClientSecret,
   callbackURL: "/auth/google/callback"
-}, (accessToken, refreshToken, profile, done) => {
+},
+  async (accessToken, refreshToken, profile, done) => {
   console.log('Google Profile',profile);
   console.log('Google Email>>>**',profile.name.familyName);
-  User.findOne({'googleId': profile.id})
-    .then((existingUser)=>{
-      if(existingUser){
+   const existingUser = await User.findOne({'googleId': profile.id})
 
+      if(existingUser){
         return done(null, existingUser)
-      }else{
+      }
         user = new User({
           googleId: profile.id,
           name:{
@@ -42,18 +42,10 @@ passport.use(new GoogleStrategy({
           },
           displayName: profile.displayName,
           email: profile.emails[0].value,
-          // username: profile.username,
           provider: 'Google'
         })
-        return user.save()
-        .then(user =>{
+        const user = await user.save()
           done(null, user)
-        })
-      }
-    })
-    .catch(error =>{
-      console.log("carajo", error)
-    })
 
   }
  )
@@ -67,17 +59,17 @@ passport.use(new FacebookStrategy({
   // profileFields: ['id', 'displayName', 'photos', 'emails'],
   profileFields: ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified', 'displayName', 'photos'],
   proxy: true
-}, function(accessToken, refreshToken, profile, done) {
+},
+async (accessToken, refreshToken, profile, done) => {
   console.log('profileFacebook>>>>>', profile);
   // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
   //   return cb(err, user);
   // });
-  User.findOne({ 'facebookId': profile.id})
-  .then((existingUser, err)=>{
+  const existingUser =  await User.findOne({ 'facebookId': profile.id})
     if(existingUser){
       // console.log(`this user ${existingUser}, already exist`);
       return done(null, existingUser)
-    }else{
+    }
       console.log('mierda', profile);
       user = new User({
         facebookId: profile.id,
@@ -90,13 +82,7 @@ passport.use(new FacebookStrategy({
         // email: profile.emails[0].value,
         provider: 'facebook'
       })
-      return user.save()
-      .then(user =>{
-        done(null, user)
-      });
-    }
-  })
-  .catch(error =>{
-    console.log("carajo", error)
-  })
+      await user.save()
+      done(null, user)
+
 }));

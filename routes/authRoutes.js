@@ -16,7 +16,7 @@ module.exports = app =>{
 
   app.get('/api/current_user', (req, res) =>{
     console.log('carajo1',req)
-    res.send(req.session)
+    res.json(req.session)
   })
 
 //Facebook
