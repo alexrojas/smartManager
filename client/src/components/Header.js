@@ -10,12 +10,14 @@ class Header extends Component {
       case false:
         return (
           <React.Fragment>
-            <li> <a href="/auth/google" >Google</a> </li>
-            {/* <li> <a href="/auth/facebook" >facebook</a> </li> */}
+            <li> <a  href="/auth/google" >  <img height="40px" src={require("../img/googleButton.png")} /></a> </li>
+            <li> <a  href="/auth/facebook" >  <img height="70px" margin-top="10px" src="https://www.freeiconspng.com/uploads/facebook-sign-in-button-png-26.png" /></a> </li>
+
           </React.Fragment>
+
         )
       default:
-        return <li> <a> Logout</a> </li>
+        return <li> <a href="/api/logout"> Logout</a> </li>
     }
   }
 
@@ -32,10 +34,10 @@ class Header extends Component {
               <a href="sass.html">Inventory</a>
             </li>
             <li>
-              <a href="badges.html">RMA</a>
-            </li>
-            {this.renderContent()}
 
+
+            </li>
+              {this.renderContent()}
           </ul>
         </div>
       </nav>

@@ -28,8 +28,8 @@ passport.use(new GoogleStrategy({
   callbackURL: "/auth/google/callback"
 },
   async (accessToken, refreshToken, profile, done) => {
-  console.log('Google Profile',profile);
-  console.log('Google Email>>>**',profile.name.familyName);
+  // console.log('Google Profile',profile);
+  // console.log('Google Email>>>**',profile.name.familyName);
    const existingUser = await User.findOne({'googleId': profile.id})
 
       if(existingUser){
