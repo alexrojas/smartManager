@@ -16,7 +16,7 @@ const userSchema = new Schema({
   password: {type: String},
   gender: {type: String},
   image: {type: String},
-  date: {type: Date, defaul: Date.now},
+  date: {type: Date, default: Date.now},
 })
 
 

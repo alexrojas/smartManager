@@ -14,10 +14,7 @@ module.exports = app =>{
     res.redirect('/api/current_user');
   });
 
-  app.get('/api/current_user', (req, res) =>{
-    console.log('carajo1',req)
-    res.json(req.session)
-  })
+
 
 //Facebook
   app.get('/auth/facebook',
@@ -25,10 +22,17 @@ module.exports = app =>{
 
   app.get('/auth/facebook/callback', passport.authenticate('facebook',
   {scope: ['email'] }), function(req, res) {
-    console.log(req);
+    // console.log(req);
     // Successful authentication, redirect home.
     res.redirect('/api/current_user');
   });
+
+  app.get('/api/current_user', (req, res) =>{
+    // console.log('currentUser',req)
+    res.json(req.user)
+  })
+
+
 
   app.get('/api/logout', (req, res)=>{
     req.logout()

@@ -14,6 +14,7 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((id, cb) => {
   User.findById(id, (err, user) => {
     if (err) { return cb(err); }
+    //user.name will return on json only the name
     cb(null, user);
   });
 });
@@ -61,13 +62,13 @@ passport.use(new FacebookStrategy({
   proxy: true
 },
 async (accessToken, refreshToken, profile, done) => {
-  console.log('profileFacebook>>>>>', profile);
+  // console.log('profileFacebook>>>>>', profile);
   // User.findOrCreate({ facebookId: profile.id }, function (err, user) {
   //   return cb(err, user);
   // });
   const existingUser =  await User.findOne({ 'facebookId': profile.id})
     if(existingUser){
-      // console.log(`this user ${existingUser}, already exist`);
+      console.log(`this user ${existingUser.name}, already exist`);
       return done(null, existingUser)
     }
       console.log('mierda', profile);
