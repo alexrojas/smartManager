@@ -11,8 +11,8 @@ module.exports = app =>{
 
   app.get('/auth/google/callback', passport.authenticate('google', {failureRedirect: '/api/current_user'}), function(req, res) {
     // Successful authentication, redirect home.
-    // res.redirect('/surveys');
-    res.redirect('/api/current_user');
+    res.redirect('/surveys');
+
   });
 
 
@@ -25,12 +25,13 @@ module.exports = app =>{
   {scope: ['email'] }), function(req, res) {
     // console.log(req);
     // Successful authentication, redirect home.
-    res.redirect('/api/current_user');
+    res.redirect('/surveys');
+
   });
 
   app.get('/api/current_user', (req, res) =>{
     // console.log('currentUser',req)
-    // res.redirect('/surveys');
+
     res.json(req.user)
   })
 
