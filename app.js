@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const authRoutes = require('./routes/authRoutes')
+const supplier = require('./routes/supplier')
 const keys = require('./config/keys')
 const cookieSession = require('cookie-session')
 const passport = require("passport")
@@ -26,6 +27,7 @@ mongoose.connect(keys.mongoURI)
 .catch(err => console.log(err))
 
 authRoutes(app)
+supplier(app)
 
 app.get('/', (req, res) => {
   res.send({hi: "you are not logged in"})
