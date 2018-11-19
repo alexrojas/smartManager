@@ -10,9 +10,11 @@ class Header extends Component {
       case false:
         return (
           <React.Fragment>
-            <li> <a  href="/auth/google" >  <img height="40px" src={require("../img/googleButton.png")} /></a> </li>
-            <li> <a  href="/auth/facebook" >  <img height="70px" margin-top="10px" src="https://www.freeiconspng.com/uploads/facebook-sign-in-button-png-26.png" /></a> </li>
+            <div className="Socials">
 
+              <li> <a  href="/auth/google" >  <img height="40px" src={require("../img/googleButton.png")} /></a> </li>
+              <li> <a  href="/auth/facebook" >  <img height="70px" margin-top="10px" src="https://www.freeiconspng.com/uploads/facebook-sign-in-button-png-26.png" /></a> </li>
+            </div>
           </React.Fragment>
 
         )
@@ -27,16 +29,13 @@ class Header extends Component {
     return (
       <div>
       <nav>
-        <div className="nav-wrapper container" >
+        <div className="nav-wrapper container 2social" >
           <a href="/" className="brand-logo">Smart </a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li>
               <a href="sass.html">Inventory</a>
             </li>
-            <li>
-
-
-            </li>
+          
               {this.renderContent()}
           </ul>
         </div>

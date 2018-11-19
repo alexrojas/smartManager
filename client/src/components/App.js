@@ -5,11 +5,12 @@ import * as actions from '../actions'
 
 import Header from './Header'
 import Footer from './Footer'
+import Landing from './Landing'
 
 // const Header = () => <h2> Header </h2>
 const Dashboard = () => <h2> dashboard </h2>
 const Survey = () => <h2> Survey </h2>
-const Landing = () => <h2> Landing </h2>
+// const Landing = () => <h2> Landing </h2>
 
 class App extends Component {
   componentDidMount(){
