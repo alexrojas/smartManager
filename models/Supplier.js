@@ -5,6 +5,10 @@ const { Schema } = mongoose
 
 const supplierSchema = new Schema({
 
+  // user: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'User'
+  // },
   name: {type: String},
   displayName: {type: String},
   address: {type: String},
@@ -25,7 +29,6 @@ const supplierSchema = new Schema({
           type: Number,
         }
   },
-  password: {type: String},
   image: {type: String},
   date: {type: Date, default: Date.now},
 })

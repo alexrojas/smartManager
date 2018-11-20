@@ -1,26 +1,37 @@
 
 const mongoose = require("mongoose");
 const passport = require('passport')
+const Supplier = require('../models/Supplier')
 
-const Supplier = require('../models/Suppliers')
 
 
 module.exports = app =>{
-
   function isAuthenticated(req, res, next){
     if(req.user){
       return next()
     } else{
-      res.redirect('/carajo')
+      res.redirect('/')
     }
   }
 
-
-
-  app.get('/suppliers', isAuthenticated,(req, res)=>{
+  app.get('/suppliers', (req, res)=>{
     console.log("tutututu", req.user);
     res.send('its working ')
   })
+
+  app.post('/suppliers', (req, res)=>{
+
+    console.log(req.user);
+  const newSupplier = new Supplier({
+    phone: req.body.phone,
+    // user: req.user.id
+  })
+
+  newSupplier.save()
+  .then((post)=>{
+    res.json(post)
+  })
+})
 
 
 }
